@@ -22,4 +22,5 @@ go.work
 .idea
 
 app-log
+logs
 allure-results/

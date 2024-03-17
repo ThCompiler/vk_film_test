@@ -15,6 +15,7 @@ services:
     depends_on:
       - films-bd
       - sessions
+    restart: on-failure
   films-bd:
     image: postgres:16
     expose:
