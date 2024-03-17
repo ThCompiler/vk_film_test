@@ -1,0 +1,21 @@
+{"level":"info","ts":1710719190.312347,"msg":"[App] Init - success check connection to postgresql","app_name":"vk_films"}
+{"level":"info","ts":1710719190.3166065,"msg":"[App] Init - success check connection to redis","app_name":"vk_films"}
+{"level":"info","ts":1710719190.3168533,"msg":"[App] Start - server started","app_name":"vk_films"}
+{"level":"info","ts":1710719203.7417686,"msg":"[HTTP] Start - | 2024/03/17 - 23:46:43 | 172.18.0.1:43572 | GET  /api/v1/swagger/index.html |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.7424293,"msg":"[HTTP] End - | 2024/03/17 - 23:46:43 | 172.18.0.1:43572 | GET  /api/v1/swagger/index.html | 745.344µs |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.7800262,"msg":"[HTTP] Start - | 2024/03/17 - 23:46:43 | 172.18.0.1:43572 | GET  /api/v1/swagger/swagger-ui.css |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.780059,"msg":"[HTTP] Start - | 2024/03/17 - 23:46:43 | 172.18.0.1:43588 | GET  /api/v1/swagger/swagger-ui-bundle.js |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.780472,"msg":"[HTTP] Start - | 2024/03/17 - 23:46:43 | 172.18.0.1:43602 | GET  /api/v1/swagger/swagger-ui-standalone-preset.js |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.7806287,"msg":"[HTTP] End - | 2024/03/17 - 23:46:43 | 172.18.0.1:43572 | GET  /api/v1/swagger/swagger-ui.css | 654.245µs |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.7810514,"msg":"[HTTP] End - | 2024/03/17 - 23:46:43 | 172.18.0.1:43602 | GET  /api/v1/swagger/swagger-ui-standalone-preset.js | 642.76µs |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.78108,"msg":"[HTTP] End - | 2024/03/17 - 23:46:43 | 172.18.0.1:43588 | GET  /api/v1/swagger/swagger-ui-bundle.js | 1.069979ms |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.9759188,"msg":"[HTTP] Start - | 2024/03/17 - 23:46:43 | 172.18.0.1:43588 | GET  /api/v1/swagger/doc.json |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.9765215,"msg":"[HTTP] End - | 2024/03/17 - 23:46:43 | 172.18.0.1:43588 | GET  /api/v1/swagger/doc.json | 633.105µs |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.9854734,"msg":"[HTTP] Start - | 2024/03/17 - 23:46:43 | 172.18.0.1:43588 | GET  /api/v1/swagger/favicon-32x32.png |","app_name":"vk_films"}
+{"level":"info","ts":1710719203.9856684,"msg":"[HTTP] End - | 2024/03/17 - 23:46:43 | 172.18.0.1:43588 | GET  /api/v1/swagger/favicon-32x32.png | 257.805µs |","app_name":"vk_films"}
+{"level":"info","ts":1710719214.761058,"msg":"[HTTP] Start - | 2024/03/17 - 23:46:54 | 172.18.0.1:44442 | GET  /api/v1/user/list |","app_name":"vk_films"}
+{"level":"debug","ts":1710719214.7710605,"msg":"get session for user: 1","app_name":"vk_films","url":"/api/v1/user/list","request_id":"aa8f4645-ed96-46e4-af1a-c4bc9e5cdfc7","method":"GET"}
+{"level":"info","ts":1710719214.7713673,"msg":"was sent response with status code 200","app_name":"vk_films","url":"/api/v1/user/list","request_id":"aa8f4645-ed96-46e4-af1a-c4bc9e5cdfc7","method":"GET"}
+{"level":"info","ts":1710719214.7713926,"msg":"[HTTP] End - | 2024/03/17 - 23:46:54 | 172.18.0.1:44442 | GET  /api/v1/user/list | 10.369275ms |","app_name":"vk_films"}
+{"level":"info","ts":1710719220.210802,"msg":"[App] Run - signal: terminated","app_name":"vk_films"}
+{"level":"info","ts":1710719220.2109177,"msg":"[App] Stop - server stopped","app_name":"vk_films"}

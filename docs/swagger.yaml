@@ -1,0 +1,822 @@
+basePath: /api/v1
+definitions:
+  operate.ModelError:
+    properties:
+      error_message:
+        type: string
+    type: object
+  request.CreateActor:
+    properties:
+      birthday:
+        example: 12.02.2002
+        format: date
+        type: string
+      name:
+        example: Тимоти Шаламе
+        type: string
+      sex:
+        enum:
+        - male
+        - female
+        example: male
+        type: string
+    type: object
+  request.CreateFilm:
+    properties:
+      actors:
+        items:
+          type: integer
+        type: array
+      data_publish:
+        example: 12.02.2023
+        format: date
+        type: string
+      description:
+        example: Futuristic film
+        type: string
+      name:
+        example: Dune
+        type: string
+      rating:
+        example: 9
+        format: uint8
+        type: integer
+    type: object
+  request.CreateUser:
+    properties:
+      login:
+        example: login
+        type: string
+      password:
+        example: password
+        type: string
+      role:
+        default: user
+        enum:
+        - user
+        - admin
+        example: user
+        type: string
+    type: object
+  request.Login:
+    properties:
+      login:
+        example: login
+        type: string
+      password:
+        example: password
+        type: string
+    type: object
+  request.UpdateActor:
+    properties:
+      birthday:
+        example: 12.02.2002
+        format: date
+        type: string
+      name:
+        example: Тимоти Шаламе
+        type: string
+      sex:
+        enum:
+        - male
+        - female
+        example: male
+        type: string
+    type: object
+  request.UpdateFilm:
+    properties:
+      actors:
+        items:
+          type: integer
+        type: array
+      data_publish:
+        example: 12.02.2023
+        format: date
+        type: string
+      description:
+        example: Futuristic film
+        type: string
+      name:
+        example: Dune
+        type: string
+      rating:
+        example: 9
+        format: uint8
+        type: integer
+    type: object
+  request.UpdateRole:
+    properties:
+      role:
+        enum:
+        - user
+        - admin
+        example: user
+        type: string
+    type: object
+  response.Actor:
+    properties:
+      birthday:
+        example: 12.02.2002
+        format: date
+        type: string
+      id:
+        example: 5
+        format: uint64
+        type: integer
+      name:
+        example: Тимоти Шаламе
+        type: string
+      sex:
+        enum:
+        - male
+        - female
+        example: male
+        type: string
+    type: object
+  response.ActorFilms:
+    properties:
+      data_publish:
+        example: 12.02.2023
+        format: date
+        type: string
+      description:
+        example: Futuristic film
+        type: string
+      id:
+        example: 5
+        format: uint64
+        type: integer
+      name:
+        example: Dune
+        type: string
+      rating:
+        example: 9
+        format: uint8
+        type: integer
+    type: object
+  response.ActorWithFilms:
+    properties:
+      birthday:
+        example: 12.02.2002
+        format: date
+        type: string
+      films:
+        items:
+          $ref: '#/definitions/response.ActorFilms'
+        type: array
+      id:
+        example: 5
+        format: uint64
+        type: integer
+      name:
+        example: Тимоти Шаламе
+        type: string
+      sex:
+        enum:
+        - male
+        - female
+        example: male
+        type: string
+    type: object
+  response.Film:
+    properties:
+      actors:
+        items:
+          $ref: '#/definitions/response.FilmActors'
+        type: array
+      data_publish:
+        example: 12.02.2023
+        format: date
+        type: string
+      description:
+        example: Futuristic film
+        type: string
+      id:
+        example: 5
+        format: uint64
+        type: integer
+      name:
+        example: Dune
+        type: string
+      rating:
+        example: 9
+        format: uint8
+        type: integer
+    type: object
+  response.FilmActors:
+    properties:
+      birthday:
+        example: 12.02.2002
+        format: date
+        type: string
+      id:
+        example: 5
+        format: uint64
+        type: integer
+      name:
+        example: Тимоти Шаламе
+        type: string
+      sex:
+        enum:
+        - male
+        - female
+        example: male
+        type: string
+    type: object
+  response.User:
+    properties:
+      id:
+        example: 5
+        format: uint64
+        type: integer
+      login:
+        example: login
+        type: string
+      role:
+        enum:
+        - user
+        - admin
+        example: user
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: vet_v2002@mail.ru
+    name: Artem Vetoshkin
+  description: Rest API Для управления базо данных фильмов
+  title: Фильмотека
+  version: "1.0"
+paths:
+  /actor:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет актёра включая его имя, пол и дату рождения.
+      parameters:
+      - description: Информация о добавляемом актёре
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateActor'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Актёр успешно добавлен в базу
+          schema:
+            $ref: '#/definitions/response.Actor'
+        "400":
+          description: В теле запроса ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на создание актёра
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Добавление актёра.
+      tags:
+      - actor
+  /actor/{actor_id}:
+    delete:
+      description: Удаляет информацию об актёре по его id.
+      parameters:
+      - description: Уникальный идентификатор актёра
+        in: path
+        name: actor_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Актёр успешно удалён
+        "400":
+          description: В теле запросе ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на удаление актёра
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "404":
+          description: Актёр с указанным id не найден
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Удаление актёра.
+      tags:
+      - actor
+    put:
+      consumes:
+      - application/json
+      description: Обновляет данные об актёре. Все переданные поля будут обновлены.
+        Отсутствующие поля будут оставлены без изменений.
+      parameters:
+      - description: Уникальный идентификатор актёра
+        in: path
+        name: actor_id
+        required: true
+        type: integer
+      - description: Информация об обновлении
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateActor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Актёр успешно обновлен в базе
+          schema:
+            $ref: '#/definitions/response.ActorWithFilms'
+        "400":
+          description: В теле запроса ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на обновление актёра
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "404":
+          description: Актёр с указанным id не найден
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Обновление данных об актёре.
+      tags:
+      - actor
+  /actor/list:
+    get:
+      description: Формирует список всех актёров в системы.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список актёров успешно сформирован
+          schema:
+            items:
+              $ref: '#/definitions/response.ActorWithFilms'
+            type: array
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Получение списка актёров.
+      tags:
+      - actor
+  /film:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет фильм включая его название, описание, рейтинг, дату публикации
+        и список игравших в нём актёров.
+      parameters:
+      - description: Информация о добавляемом фильме
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateFilm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Фильм успешно добавлен в базу
+          schema:
+            $ref: '#/definitions/response.Film'
+        "400":
+          description: В теле запроса ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на создание фильма
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Добавление фильма.
+      tags:
+      - film
+  /film/{film_id}:
+    delete:
+      description: Удаляет информацию о фильме из системы по его id.
+      parameters:
+      - description: Уникальный идентификатор фильма
+        in: path
+        name: film_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Фильм успешно удалён
+        "400":
+          description: В теле запросе ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на удаление фильма
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "404":
+          description: Фильм с указанным id не найден
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Удаление фильма.
+      tags:
+      - film
+    put:
+      consumes:
+      - application/json
+      description: Обновляет данные об фильме. Все переданные поля будут обновлены.
+        Отсутствующие поля /
+      parameters:
+      - description: Уникальный идентификатор фильма
+        in: path
+        name: film_id
+        required: true
+        type: integer
+      - description: Информация об обновлении
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateFilm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Фильм успешно обновлен в базе
+          schema:
+            $ref: '#/definitions/response.Film'
+        "400":
+          description: В теле запроса ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на обновление фильма
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "404":
+          description: Фильм с указанным id не найден
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Обновление данных об фильме.
+      tags:
+      - film
+  /film/list:
+    get:
+      description: Позволяет получить список фильмом отсортированный по определённому
+        полю. А также можно делать поиска списка фильма по имени актёра или названии
+        фильма. Если параметры "search_by" и "search_string" не указаны, поиск не
+        производится.
+      parameters:
+      - default: DESC
+        description: Порядок сортировки. Возможна сортировка по возрастанию 'asc'
+          или по убыванию 'desc'.
+        enum:
+        - DESC
+        - ASC
+        in: query
+        name: sort_order
+        type: string
+      - default: rating
+        description: Параметр сортировки. Возможна сортировка по рейтингу 'rating',
+          имени 'name' и дате публикации 'publish_date'.
+        enum:
+        - rating
+        - name
+        - publish_date
+        in: query
+        name: sort_by
+        type: string
+      - description: Параметр поиска. Возможен поиск по фрагменту имени актёра 'actor'
+          или фрагменту названия фильма 'film'. Обязателен при указании параметра
+          'search_name'.
+        enum:
+        - actor
+        - film
+        in: query
+        name: search_by
+        type: string
+      - description: Фргамнет, по которому осуществляется поиск. Обязателен при указании
+          параметра 'search_by'
+        in: query
+        name: search_string
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список фильмом успешно сформирован
+          schema:
+            items:
+              $ref: '#/definitions/response.Film'
+            type: array
+        "400":
+          description: В теле запросе ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Получение списка фильмов.
+      tags:
+      - film
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Авторизация пользователя в системе.
+      parameters:
+      - description: Логин и пароль пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Пользователь успешно авторизован
+          headers:
+            Set-Cookie:
+              description: Устанавливает сессию текущего пользователя
+              type: string
+        "400":
+          description: В теле запроса ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "409":
+          description: Неверный логин или пароль
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "418":
+          description: Пользователь уже авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      summary: Авторизация.
+      tags:
+      - user
+  /logout:
+    post:
+      description: Позволяет выйти пользователю из системы.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Пользователь успешно вышел из системы
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Выход из системы.
+      tags:
+      - user
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет пользователя включая его логин, пароль и роль. По умолчанию
+        роль 'user'.
+      parameters:
+      - description: Информация о добавляемом пользователе
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Пользователь успешно добавлен в базу
+          schema:
+            $ref: '#/definitions/response.User'
+        "400":
+          description: В теле запроса ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на создание пользователя
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "409":
+          description: Пользователь с таким же логином уже существует
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Добавление пользователя.
+      tags:
+      - user
+  /user/{user_id}:
+    delete:
+      description: Удаляет пользователя по его id.
+      parameters:
+      - description: Уникальный идентификатор пользователя
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Пользователь успешно удалён
+        "400":
+          description: В теле запроса ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на удаление пользователя
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "404":
+          description: Пользователь с указанным id не найден
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Удаление пользователя.
+      tags:
+      - user
+  /user/{user_id}/role:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет пользовательскую роль.
+      parameters:
+      - description: Уникальный идентификатор пользователя
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - description: Информация о добавляемом пользователе
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Роль пользователя успешно обновлена
+          schema:
+            $ref: '#/definitions/response.User'
+        "400":
+          description: В теле запроса ошибка
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "403":
+          description: У пользователя нет прав на создание пользователя
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "404":
+          description: Пользователь с указанным id не найден
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Обновление роли пользователя.
+      tags:
+      - user
+  /user/list:
+    get:
+      description: Возвращает список пользователей системы.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список пользователей успешно сформирован
+          schema:
+            items:
+              $ref: '#/definitions/response.User'
+            type: array
+        "401":
+          description: Пользователь не авторизован
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/operate.ModelError'
+      security:
+      - sessionCookie: []
+      summary: Получение списка пользователей.
+      tags:
+      - user
+schemes:
+- http
+securityDefinitions:
+  sessionCookie:
+    description: Уникальный идентификационный номер сессии
+    in: cookie
+    name: session_id
+    type: apiKey
+swagger: "2.0"

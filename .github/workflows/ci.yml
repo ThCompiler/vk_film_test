@@ -2,7 +2,7 @@ name: Base CI
 
 env:
   GO_VERSION: 1.22
-  BIN_NAME: beget
+  BIN_NAME: films
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
       - name: Run go vet
         run: go vet ./...
   test:
-    needs: [vet, lint, golangci-lint]
+    needs: [vet, lint]
     runs-on: ubuntu-latest
     steps:
       - name: checkout

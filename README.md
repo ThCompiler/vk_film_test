@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/ThCompiler/vk_film_test/graph/badge.svg?token=FKG6OZL39B)](https://codecov.io/gh/ThCompiler/vk_film_test)
+
 # Тестовое задание вакансии "Go-разработчик" в VK
 
 ## Задание;
@@ -95,5 +97,7 @@ sudo make run-verbose
 sudo make run
 ```
 
-Система запущена.
+Система запущена. Сервер доступен на http://localhost:8080/.
+
+Api можно посмотреть и запускать на http://localhost:8080/api/v1/swagger.
 

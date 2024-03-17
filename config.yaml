@@ -1,0 +1,11 @@
+port: 8080
+postgres:
+  url: "host=films-bd port=5432 user=films password=qwerty dbname=films sslmode=disable"
+redis:
+  url: "redis://sessions/0"
+logger:
+  app_name: "vk_films"
+  level: 'debug'
+  directory: './app-log/'
+  use_std_and_file: true
+  allow_show_low_level: true
